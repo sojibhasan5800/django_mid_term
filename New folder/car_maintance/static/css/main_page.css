@@ -1,0 +1,22 @@
+.banner{
+    margin: 4px;
+    border: 4px rebeccapurple;
+    gap: 2px;
+    background-color: aqua;
+}
+
+.banner_img_div{
+ 
+    align-items: center;
+    text-align: center;
+    background-color: aqua;
+    
+}
+.banner_img_text{
+
+    text-align: center;
+    background-color: aqua;
+} 
+.banner_img{
+    width: 80%;
+}
