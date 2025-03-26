@@ -1,0 +1,52 @@
+/* General Page Styling */
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+/* Profile Header */
+.profile-header {
+    text-align: center;
+    padding: 20px;
+    border-bottom: 2px solid #ddd;
+}
+
+.profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #007bff;
+    object-fit: cover;
+}
+
+/* Purchased Cars Section */
+.purchased-cars {
+    margin-top: 30px;
+}
+
+.car-card {
+    transition: 0.3s;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.car-card img {
+    height: 180px;
+    object-fit: cover;
+}
+
+.car-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-img {
+        width: 100px;
+        height: 100px;
+    }
+    .car-card {
+        margin-bottom: 20px;
+    }
+}

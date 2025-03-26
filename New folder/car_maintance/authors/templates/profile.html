@@ -1,10 +1,45 @@
 {% extends "main_temp/base.html" %}
- {% load crispy_forms_tags%}
-  {% block content%}
- 
-  <h2>Welcome, {{ data.username }}</h2>
-  <p><strong>First Name:</strong> {{ data.first_name }}</p>
-  <p><strong>Last Name:</strong> {{ data.last_name }}</p>
-  <p><strong>Email:</strong> {{ data.email }}</p>
- 
-{% endblock content %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block authorapp_css %}
+<link rel="stylesheet" href="{% static 'authors_css/profile.css' %}">
+{% endblock  %}
+
+{% block content %}
+
+<div class="container mt-5">
+  
+  <!-- Profile Section -->
+  <div class="profile-header text-center">
+    <img src="{% static 'core/images/userprofile.png' %}" alt="Profile Picture" class="profile-img">
+    <h2 class="mt-3">{{ user.username }}</h2>
+    <p class="text-muted">{{ user.email }}</p>
+  </div>
+
+  <!-- Purchased Cars Section -->
+  <div class="purchased-cars mt-4">
+    <h3 class="text-center mb-4">Purchased Cars</h3>
+    <div class="row">
+      {% if user.profiledatabase.purchased_cars.all %}
+        {% for car in user.profiledatabase.purchased_cars.all %}
+          <div class="col-md-4">
+            <div class="card car-card shadow-sm">
+              <img src="{{ car.car_images.url }}" alt="{{ car.car_name }}" class="card-img-top">
+              <div class="card-body text-center">
+                <h5 class="card-title">{{ car.car_name }}</h5>
+                <p class="card-text"><strong>Price:</strong> ${{ car.car_price }}</p>
+                <p class="text-muted">Purchased on: {{ car.date_purchased }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-center text-muted">You haven't purchased any cars yet.</p>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

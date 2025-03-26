@@ -1,26 +1,87 @@
 {% extends "main_temp/base.html" %}
- {% load crispy_forms_tags%}
-  {% block content%}
-  <form method="post" style="width: 50%; margin: auto" novalidate>
-    <h1> i am {{type}} page</h1>
-    {% csrf_token %}
-    <!-- {{form | crispy }} -->
-    {% for fm in formss%} 
-    <br>
-    {{fm.label_tag}} <br>
-    {{fm}} 
-    {% if fm.help_text %}
-    <br>
-    <small style="color: gray;">{{ fm.help_text }}</small>
-    {% endif %}
-    <br>
-    {{fm.errors|striptags}} 
-    <br>
-    {% endfor %}
-    <br />
-    <button class="btn btn-primary" type="submit">Submit</button>
-    <br/>
-  </form>
+{% load crispy_forms_tags %}
 
- 
+{% block content %}
+<!-- Toast Notifications -->
+{% if messages %}
+  <div class="toast-container position-absolute start-50 translate-middle-x mt-3" id="toast-container">
+    {% for message in messages %}
+      <div class="toast align-items-center text-bg-{{ message.tags }} border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body text-center fw-bold">
+            {{ message }}
+          </div>
+          <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<!-- Login Page Container -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-lg rounded-lg">
+        <div class="card-body">
+          <h2 class="text-center text-primary">Welcome to {{ type }} Page</h2>
+          <hr>
+
+          <!-- Show Register Button if User is not registered -->
+          {% if show_register %}
+          <div class="alert alert-warning text-center">
+            <p>Don't have an account? 
+                <a href="{% url 'signup_page' %}" class="btn btn-sm btn-success">Register Here</a>
+            </p>
+          </div>
+          {% endif %}
+
+          <!-- Login Form -->
+          <form method="post" novalidate class="p-3">
+            {% csrf_token %}
+            
+            <!-- Loop over form fields -->
+            {% for fm in formss %}
+            <div class="mb-3">
+              <div class="form-group">
+                {{ fm.label_tag }}
+                {{ fm }}
+                {% if fm.help_text %}
+                <br>
+                <small class="form-text text-muted">{{ fm.help_text }}</small>
+                {% endif %}
+              </div>
+            </div>
+            {% endfor %}
+
+            <!-- Display non-field errors (general form errors) -->
+            {% if formss.non_field_errors %}
+            <div class="alert alert-danger">
+              {% for error in formss.non_field_errors %}
+              <small>❌ {{ error }}</small><br>
+              {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Submit Button -->
+            <button class="btn btn-primary w-100 rounded-pill shadow-lg border-0 transition-all duration-300 hover:bg-primary-dark active:bg-primary-dark" type="submit">Login</button>
+          </form>
+
+          <!-- Registration Success Alert (if user is authenticated) -->
+          {% if user.is_authenticated %}
+          <div class="alert alert-success text-center mt-3">
+            <h5>Registration Successful!</h5>
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>First Name:</strong> {{ user.first_name }}</p>
+            <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+            <a href="{% url 'profile_page' %}" class="btn btn-outline-primary">Go to Profile</a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock content %}

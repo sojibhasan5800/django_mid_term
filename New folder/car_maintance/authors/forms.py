@@ -12,9 +12,9 @@ class registration_form(UserCreationForm):
         self.fields['password1'].help_text = None  
         self.fields['password2'].help_text = None
         
-    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-control'}) 
+    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-controls'}) 
                              ,error_messages={'required': "Emails is required.", 'invalid': "Enter a valid email address."})   
-    first_name = forms.CharField(required=True,widget=forms.TextInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(required=True,widget=forms.TextInput(attrs={'class': 'form-controls'}))
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email']
