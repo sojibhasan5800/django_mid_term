@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-!p4kp_rkwv*q!v^d@bx)@k*n56k8n+-yzj14jwf#a7m40*9^j#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.0.3', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -37,12 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'livereload',
+    # 'livereload',
     'crispy_forms',
     'crispy_bootstrap5',
     'authors',
     'brand_app',
     'car_app',
+    'django_browser_reload',
     # 'courses_app'
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
@@ -56,7 +57,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'livereload.middleware.LiveReloadScript',
+    # 'livereload.middleware.LiveReloadScript',
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = 'car_maintance.urls'
@@ -78,6 +80,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'car_maintance.wsgi.application'
+# MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 
 # Database
@@ -129,6 +132,10 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
    BASE_DIR/'static',
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

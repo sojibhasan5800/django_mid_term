@@ -1,12 +1,27 @@
 {% extends "main_temp/base.html" %}
+
 {% load crispy_forms_tags %}
 {% load static %}
 
 {% block authorapp_css %}
 <link rel="stylesheet" href="{% static 'authors_css/profile.css' %}">
-{% endblock  %}
+{% endblock %}
 
 {% block content %}
+
+{% if messages %}
+
+    <div class="container mt-3">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"  id="message-alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+
 
 <div class="container mt-5">
   
@@ -21,19 +36,46 @@
   <div class="purchased-cars mt-4">
     <h3 class="text-center mb-4">Purchased Cars</h3>
     <div class="row">
-      {% if user.profiledatabase.purchased_cars.all %}
-        {% for car in user.profiledatabase.purchased_cars.all %}
-          <div class="col-md-4">
-            <div class="card car-card shadow-sm">
-              <img src="{{ car.car_images.url }}" alt="{{ car.car_name }}" class="card-img-top">
-              <div class="card-body text-center">
-                <h5 class="card-title">{{ car.car_name }}</h5>
-                <p class="card-text"><strong>Price:</strong> ${{ car.car_price }}</p>
-                <p class="text-muted">Purchased on: {{ car.date_purchased }}</p>
+      {% if purchased_cars %}
+        <form method="POST">
+          {% csrf_token %}
+          <!-- Delete All Cars Button -->
+          <button type="submit" name="delete_all" class="btn btn-danger mb-4">Delete All Cars</button>
+
+          <div class="col-md-12">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="select-all" onclick="toggleSelectAll()">
+                  <label class="form-check-label" for="select-all">Select All</label>
+                </div>
+                <div class="row">
+                  {% for car in purchased_cars %}
+                    <div class="col-md-4">
+                      <div class="card car-card shadow-sm">
+                        <img src="{{ car.car_images.url }}" alt="{{ car.car_name }}" class="card-img-top">
+                        <div class="card-body text-center">
+                          <h5 class="card-title">{{ car.car_name }}</h5>
+                          <p class="card-text"><strong>Price:</strong> ${{ car.car_price }}</p>
+                          <p class="text-muted">Purchased on: {{ car.date_purchased }}</p>
+
+                          <!-- Individual Car Deletion Checkbox -->
+                          <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="delete_car_ids" value="{{ car.id }}" id="delete-{{ car.id }}">
+                            <label class="form-check-label" for="delete-{{ car.id }}">Delete this car</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+
+                </div>
               </div>
             </div>
           </div>
-        {% endfor %}
+
+          <button type="submit" name="delete_selected" class="btn btn-danger mt-2">Delete Selected</button>
+        </form>
       {% else %}
         <p class="text-center text-muted">You haven't purchased any cars yet.</p>
       {% endif %}
@@ -41,5 +83,29 @@
   </div>
 
 </div>
+
+<script>
+  // Function to toggle select/unselect all checkboxes
+  function toggleSelectAll() {
+    const checkboxes = document.querySelectorAll('input[name="delete_car_ids"]');
+    const selectAllCheckbox = document.getElementById('select-all');
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = selectAllCheckbox.checked;
+    });
+  }
+</script>
+
+<script type="text/javascript">
+  // Check if the message alert exists
+  var messageAlert = document.getElementById('message-alert');
+  
+  if (messageAlert) {
+    // Set a timeout to hide the alert after 10 seconds (10000 milliseconds)
+    setTimeout(function() {
+      messageAlert.style.display = 'none';
+    }, 10000);
+  }
+</script>
+
 
 {% endblock %}

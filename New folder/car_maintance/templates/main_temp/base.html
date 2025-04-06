@@ -1,5 +1,6 @@
 
 {% load static %}
+{% load django_browser_reload %}
 
 <!doctype html>
 <html lang="en">
@@ -12,7 +13,7 @@
     
 
     {% block authorapp_css %}{% endblock  %}
-
+    {% django_browser_reload_script %}
   </head>
   <body>
 
@@ -80,7 +81,7 @@
               <div class="card">
                   <div class="card-body">
                       <h5 class="card-title">Featured Image</h5>
-                      <img class="banner_img" src="{% static 'images/im.jpeg' %}" alt="Loading...">
+                      <img class="banner_img" src="{% static 'core/images/images.jpeg' %}" alt="Loading...">
                   </div>
               </div>
           </div>
@@ -114,7 +115,7 @@
     </div>
     
 
-<p>sf</p>
+
 
 
 

@@ -10,6 +10,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', homepage, name='home_page'),
     path('author_page/', include('authors.urls')),
+    path("__reload__/", include("django_browser_reload.urls")),
    
     
    

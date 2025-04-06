@@ -4,6 +4,7 @@
 {% block content %}
 <!-- Toast Notifications -->
 {% if messages %}
+
   <div class="toast-container position-absolute start-50 translate-middle-x mt-3" id="toast-container">
     {% for message in messages %}
       <div class="toast align-items-center text-bg-{{ message.tags }} border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
